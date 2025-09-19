@@ -1,11 +1,36 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="128" height="128" rx="19.2" fill="#2c5530"/>
-  <path d="M0 99.84L32 70.4L64 80L96 49.92L128 60.16L128 128L0 128Z" fill="#1a3d1f"/>
-  <path d="M12.8 87.04L115.2 87.04" stroke="#ffd700" stroke-width="1.92" stroke-linecap="round"/>
-  <path d="M12.8 92.16L115.2 92.16" stroke="#ffd700" stroke-width="1.92" stroke-linecap="round"/>
-  <rect x="51.2" y="80" width="19.2" height="10.24" rx="2.56" fill="#ffffff"/>
-  <rect x="53.76" y="82.56" width="14.08" height="5.12" rx="1.28" fill="#2c5530"/>
-  <circle cx="56.32" cy="92.16" r="1.92" fill="#333"/>
-  <circle cx="71.68" cy="92.16" r="1.92" fill="#333"/>
-  <circle cx="99.84" cy="29.44" r="7.68" fill="#ffd700"/>
+<svg width="128" height="128" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="#2c5530"/>
+  
+  <!-- Mountain Silhouette -->
+  <path d="M100 350 L200 200 L300 350 L100 350 Z" fill="#4a7c59"/>
+  <path d="M200 350 L250 250 L350 350 L200 350 Z" fill="#5a8c69"/>
+  
+  <!-- Snow Cap -->
+  <path d="M150 280 L200 200 L220 220 L180 280 Z" fill="#ffffff"/>
+  <path d="M220 260 L270 200 L290 220 L250 260 Z" fill="#ffffff"/>
+  
+  <!-- Train -->
+  <rect x="150" y="380" width="120" height="40" rx="6" fill="#d4af37"/>
+  <rect x="160" y="390" width="100" height="30" rx="3" fill="#f4d03f"/>
+  
+  <!-- Train Windows -->
+  <rect x="170" y="395" width="15" height="15" rx="2" fill="#87ceeb"/>
+  <rect x="195" y="395" width="15" height="15" rx="2" fill="#87ceeb"/>
+  <rect x="220" y="395" width="15" height="15" rx="2" fill="#87ceeb"/>
+  <rect x="245" y="395" width="15" height="15" rx="2" fill="#87ceeb"/>
+  
+  <!-- Train Wheels -->
+  <circle cx="170" cy="430" r="8" fill="#2c2c2c"/>
+  <circle cx="250" cy="430" r="8" fill="#2c2c2c"/>
+  
+  <!-- Railway Track -->
+  <line x1="100" y1="450" x2="400" y2="450" stroke="#8b4513" stroke-width="6"/>
+  
+  <!-- Ski Symbol -->
+  <path d="M320 200 L340 180 L350 200 L330 220 Z" fill="#ffffff" stroke="#ddd" stroke-width="1"/>
+  <path d="M330 210 L340 200 L345 210 L335 220 Z" fill="#ff6b6b"/>
+  
+  <!-- "K" Letter -->
+  <text x="256" y="480" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#ffffff" text-anchor="middle">K</text>
 </svg>
