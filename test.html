@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Test - Kalavrita Guide</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Kalavrita Guide PWA Test Suite</h1>
+    
+    <div class="test-section info">
+        <h3>📱 PWA Features Test</h3>
+        <p>This page tests the core functionality of the Kalavrita Guide PWA.</p>
+    </div>
+    
+    <div class="test-section" id="service-worker-test">
+        <h3>🔧 Service Worker Test</h3>
+        <button onclick="testServiceWorker()">Test Service Worker Registration</button>
+        <div id="sw-result"></div>
+    </div>
+    
+    <div class="test-section" id="manifest-test">
+        <h3>📋 Manifest Test</h3>
+        <button onclick="testManifest()">Test Manifest Loading</button>
+        <div id="manifest-result"></div>
+    </div>
+    
+    <div class="test-section" id="data-test">
+        <h3>📊 Data Loading Test</h3>
+        <button onclick="testDataLoading()">Test Data Loading</button>
+        <div id="data-result"></div>
+    </div>
+    
+    <div class="test-section" id="offline-test">
+        <h3>📴 Offline Test</h3>
+        <button onclick="testOfflineCapability()">Test Offline Capability</button>
+        <div id="offline-result"></div>
+    </div>
+    
+    <div class="test-section" id="email-test">
+        <h3>📧 Email Service Test</h3>
+        <button onclick="testEmailService()">Test Email Service</button>
+        <div id="email-result"></div>
+    </div>
+    
+    <div class="test-section" id="install-test">
+        <h3>📲 Installation Test</h3>
+        <button onclick="testInstallPrompt()">Test Install Prompt</button>
+        <div id="install-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>🔗 Quick Links</h3>
+        <a href="/" target="_blank">
+            <button>Open Main App</button>
+        </a>
+        <a href="/manifest.json" target="_blank">
+            <button>View Manifest</button>
+        </a>
+    </div>
+
+    <script>
+        // Test Service Worker
+        async function testServiceWorker() {
+            const result = document.getElementById('sw-result');
+            try {
+                if ('serviceWorker' in navigator) {
+                    const registration = await navigator.serviceWorker.register('/js/service-worker.js');
+                    result.innerHTML = '<div class="success">✅ Service Worker registered successfully!</div>';
+                } else {
+                    result.innerHTML = '<div class="error">❌ Service Worker not supported</div>';
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Service Worker registration failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Manifest
+        async function testManifest() {
+            const result = document.getElementById('manifest-result');
+            try {
+                const response = await fetch('/manifest.json');
+                const manifest = await response.json();
+                result.innerHTML = `<div class="success">✅ Manifest loaded successfully!<br>
+                    Name: ${manifest.name}<br>
+                    Short Name: ${manifest.short_name}<br>
+                    Icons: ${manifest.icons.length} icons</div>`;
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Manifest loading failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Data Loading
+        async function testDataLoading() {
+            const result = document.getElementById('data-result');
+            try {
+                const response = await fetch('/js/data.js');
+                const dataScript = await response.text();
+                
+                // Check if data is properly structured
+                if (dataScript.includes('kalavritaData') && 
+                    dataScript.includes('restaurants') && 
+                    dataScript.includes('attractions') && 
+                    dataScript.includes('activities')) {
+                    result.innerHTML = '<div class="success">✅ Data file loaded successfully!</div>';
+                } else {
+                    result.innerHTML = '<div class="error">❌ Data file structure invalid</div>';
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Data loading failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Offline Capability
+        function testOfflineCapability() {
+            const result = document.getElementById('offline-result');
+            const isOnline = navigator.onLine;
+            
+            if (isOnline) {
+                result.innerHTML = '<div class="info">ℹ️ Currently online. Disconnect internet and refresh to test offline mode.</div>';
+            } else {
+                result.innerHTML = '<div class="success">✅ Currently offline - PWA should work without internet!</div>';
+            }
+        }
+        
+        // Test Email Service
+        function testEmailService() {
+            const result = document.getElementById('email-result');
+            try {
+                // Check if email service script loads
+                if (typeof EmailService !== 'undefined') {
+                    const emailService = new EmailService();
+                    const queueStatus = emailService.getQueueStatus();
+                    result.innerHTML = `<div class="success">✅ Email Service loaded successfully!<br>
+                        Online: ${queueStatus.isOnline}<br>
+                        Queue Length: ${queueStatus.queueLength}</div>`;
+                } else {
+                    result.innerHTML = '<div class="error">❌ Email Service not loaded</div>';
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Email Service test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Install Prompt
+        function testInstallPrompt() {
+            const result = document.getElementById('install-result');
+            
+            if ('serviceWorker' in navigator && 'PushManager' in window) {
+                result.innerHTML = '<div class="success">✅ PWA installation supported!<br>Look for "Add to Home Screen" option in browser menu.</div>';
+            } else {
+                result.innerHTML = '<div class="error">❌ PWA installation not supported in this browser</div>';
+            }
+        }
+        
+        // Auto-run basic tests on load
+        window.addEventListener('load', () => {
+            testOfflineCapability();
+        });
+    </script>
+    
+    <!-- Load email service for testing -->
+    <script src="js/email-service.js"></script>
+</body>
+</html>

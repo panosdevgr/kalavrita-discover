@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalavrita Guide - Restaurants & Attractions</title>
+    <meta name="description" content="Discover the best restaurants, attractions, and activities in Kalavrita, Greece. Your complete guide to this beautiful mountain town.">
+    <meta name="theme-color" content="#2c5530">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Kalavrita Guide">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="icons/icon-32x32.png" alt="Kalavrita Guide" class="logo-icon">
+                    <h1 class="logo-text">Kalavrita Guide</h1>
+                </div>
+                <nav class="nav">
+                    <button class="nav-toggle" aria-label="Toggle navigation">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <ul class="nav-menu">
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="#restaurants" class="nav-link">Restaurants</a></li>
+                        <li><a href="#attractions" class="nav-link">Attractions</a></li>
+                        <li><a href="#activities" class="nav-link">Activities</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-background">
+                <img src="https://images.unsplash.com/photo-1555993539-1732b0258259?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Greek Mountain Landscape" class="hero-image">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <h2 class="hero-title">Discover Kalavrita</h2>
+                    <p class="hero-subtitle">Your complete guide to restaurants, attractions, and activities in this beautiful Greek mountain town</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="scrollToSection('restaurants')">Explore Restaurants</button>
+                        <button class="btn btn-secondary" onclick="scrollToSection('attractions')">See Attractions</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Restaurants Section -->
+        <section id="restaurants" class="section">
+            <div class="container">
+                <h2 class="section-title">Restaurants & Dining</h2>
+                <p class="section-subtitle">Experience authentic Greek cuisine and local specialties</p>
+                
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">All</button>
+                    <button class="filter-tab" data-filter="traditional">Traditional</button>
+                    <button class="filter-tab" data-filter="modern">Modern</button>
+                    <button class="filter-tab" data-filter="cafe">Cafes</button>
+                </div>
+
+                <div class="restaurants-grid" id="restaurants-grid">
+                    <!-- Restaurants will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Attractions Section -->
+        <section id="attractions" class="section">
+            <div class="container">
+                <h2 class="section-title">Attractions & Landmarks</h2>
+                <p class="section-subtitle">Explore the rich history and natural beauty of Kalavrita</p>
+                
+                <div class="attractions-grid" id="attractions-grid">
+                    <!-- Attractions will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Activities Section -->
+        <section id="activities" class="section">
+            <div class="container">
+                <h2 class="section-title">Activities & Experiences</h2>
+                <p class="section-subtitle">Make the most of your visit with these exciting activities</p>
+                
+                <div class="activities-grid" id="activities-grid">
+                    <!-- Activities will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <h2 class="section-title">Contact Support</h2>
+                <p class="section-subtitle">Need help or have questions? We're here to assist you!</p>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-details">
+                                <h3>Email Support</h3>
+                                <p>Get in touch with our support team</p>
+                                <a href="mailto:hello@forcehook.com" class="contact-link">hello@forcehook.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div class="contact-details">
+                                <h3>Quick Contact</h3>
+                                <p>Send us a message directly from the app</p>
+                                <button class="btn btn-primary" onclick="openContactForm()">Send Message</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form class="contact-form" id="contact-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Kalavrita Guide</h3>
+                    <p>Your complete guide to Kalavrita, Greece</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#restaurants">Restaurants</a></li>
+                        <li><a href="#attractions">Attractions</a></li>
+                        <li><a href="#activities">Activities</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <p>Follow us for updates and tips</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Kalavrita Guide. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Indicator -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Install Prompt -->
+    <div class="install-prompt" id="install-prompt">
+        <div class="install-content">
+            <div class="install-icon">📱</div>
+            <div class="install-text">
+                <h3>Install Kalavrita Guide</h3>
+                <p>Add to your home screen for quick access</p>
+            </div>
+            <div class="install-actions">
+                <button class="btn btn-primary" id="install-btn">Install</button>
+                <button class="btn btn-secondary" id="dismiss-btn">Later</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/email-service.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/service-worker.js"></script>
+</body>
+</html>

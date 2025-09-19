@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <canvas id="canvas" width="512" height="512" style="border: 1px solid #ccc;"></canvas>
+    <div id="downloads"></div>
+    
+    <script>
+        const sizes = [16, 32, 72, 96, 128, 144, 152, 192, 384, 512];
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const downloads = document.getElementById('downloads');
+        
+        function drawIcon(size) {
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Background
+            ctx.fillStyle = '#2c5530';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Mountain
+            ctx.fillStyle = '#1a3d1f';
+            ctx.beginPath();
+            ctx.moveTo(0, size * 0.78);
+            ctx.lineTo(size * 0.25, size * 0.55);
+            ctx.lineTo(size * 0.5, size * 0.625);
+            ctx.lineTo(size * 0.75, size * 0.39);
+            ctx.lineTo(size, size * 0.47);
+            ctx.lineTo(size, size);
+            ctx.lineTo(0, size);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Railway track
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = size * 0.015;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(size * 0.1, size * 0.68);
+            ctx.lineTo(size * 0.9, size * 0.68);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(size * 0.1, size * 0.72);
+            ctx.lineTo(size * 0.9, size * 0.72);
+            ctx.stroke();
+            
+            // Train
+            const trainWidth = size * 0.15;
+            const trainHeight = size * 0.08;
+            const trainX = size * 0.4;
+            const trainY = size * 0.625;
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(trainX, trainY, trainWidth, trainHeight);
+            
+            ctx.fillStyle = '#2c5530';
+            ctx.fillRect(trainX + size * 0.02, trainY + size * 0.02, trainWidth - size * 0.04, trainHeight - size * 0.04);
+            
+            // Train wheels
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(trainX + size * 0.04, trainY + trainHeight + size * 0.015, size * 0.015, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(trainX + trainWidth - size * 0.04, trainY + trainHeight + size * 0.015, size * 0.015, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Sun
+            ctx.fillStyle = '#ffd700';
+            ctx.beginPath();
+            ctx.arc(size * 0.78, size * 0.23, size * 0.06, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Sun rays
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = size * 0.008;
+            ctx.lineCap = 'round';
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * Math.PI) / 4;
+                const x1 = size * 0.78 + Math.cos(angle) * size * 0.08;
+                const y1 = size * 0.23 + Math.sin(angle) * size * 0.08;
+                const x2 = size * 0.78 + Math.cos(angle) * size * 0.12;
+                const y2 = size * 0.23 + Math.sin(angle) * size * 0.12;
+                
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+        
+        function downloadIcon(size) {
+            drawIcon(size);
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL();
+            link.textContent = `Download ${size}x${size}`;
+            link.style.display = 'block';
+            link.style.margin = '5px';
+            downloads.appendChild(link);
+        }
+        
+        // Generate all sizes
+        sizes.forEach(size => {
+            downloadIcon(size);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{
+  "name": "kalavrita-guide-pwa",
+  "version": "1.0.0",
+  "description": "Progressive Web App guide for restaurants and attractions in Kalavrita, Greece",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'No build process needed for static PWA'",
+    "test": "echo 'No tests specified'",
+    "icons": "node create-icons.js",
+    "serve": "python3 -m http.server 3000",
+    "serve-python2": "python -m SimpleHTTPServer 3000"
+  },
+  "keywords": [
+    "pwa",
+    "progressive-web-app",
+    "kalavrita",
+    "greece",
+    "tourism",
+    "restaurants",
+    "attractions",
+    "mobile",
+    "offline"
+  ],
+  "author": "Kalavrita Guide Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kalavrita-guide/pwa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kalavrita-guide/pwa/issues"
+  },
+  "homepage": "https://kalavrita-guide.com",
+  "dependencies": {},
+  "devDependencies": {},
+  "pwa": {
+    "name": "Kalavrita Guide",
+    "short_name": "Kalavrita Guide",
+    "description": "Discover the best restaurants, attractions, and activities in Kalavrita, Greece",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2c5530",
+    "orientation": "portrait-primary"
+  }
+}

@@ -1,0 +1,20 @@
+<svg width="1200" height="600" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="600" fill="#f8f9fa"/>
+  <defs>
+    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c5530;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a3d1f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  <path d="M0 400L120 280L240 320L360 200L480 240L600 200L720 240L840 200L960 240L1200 200V600H0V400Z" fill="url(#mountainGradient)"/>
+  <path d="M0 450L120 330L240 370L360 250L480 290L600 250L720 290L840 250L960 290L1200 250V400L0 450Z" fill="#2c5530" fill-opacity="0.7"/>
+  <path d="M50 350L450 350" stroke="#ffd700" stroke-width="8" stroke-linecap="round"/>
+  <path d="M50 370L450 370" stroke="#ffd700" stroke-width="8" stroke-linecap="round"/>
+  <rect x="200" y="320" width="80" height="40" rx="8" fill="#ffffff"/>
+  <rect x="210" y="330" width="60" height="20" rx="4" fill="#2c5530"/>
+  <circle cx="220" cy="370" r="8" fill="#333"/>
+  <circle cx="260" cy="370" r="8" fill="#333"/>
+  <circle cx="400" cy="120" r="30" fill="#ffd700"/>
+  <path d="M400 60L400 40M400 200L400 180M340 120L320 120M480 120L460 120M360 80L350 70M360 160L350 170M440 80L450 70M440 160L450 170M360 80L350 70M360 160L350 170" stroke="#ffd700" stroke-width="4" stroke-linecap="round"/>
+</svg>
