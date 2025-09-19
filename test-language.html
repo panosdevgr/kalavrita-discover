@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Test - Kalavrita Guide PWA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .language-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #2c5530;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            margin-top: 0.5rem;
+            min-width: 150px;
+        }
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .language-option:last-child {
+            border-bottom: none;
+        }
+        .language-option:hover {
+            background-color: #f8f9fa;
+        }
+        .test-content {
+            margin-top: 60px;
+        }
+        .restaurant-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+        }
+        .btn {
+            background: #2c5530;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #1a3d1f;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher" id="language-switcher">
+        <!-- Language switcher will be inserted here -->
+    </div>
+
+    <div class="test-content">
+        <h1>🌍 Language Test - Kalavrita Guide PWA</h1>
+        
+        <div class="test-section">
+            <h2>Navigation Test</h2>
+            <nav>
+                <a href="#home" class="nav-link">Home</a> |
+                <a href="#restaurants" class="nav-link">Restaurants</a> |
+                <a href="#attractions" class="nav-link">Attractions</a> |
+                <a href="#activities" class="nav-link">Activities</a> |
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+        </div>
+
+        <div class="test-section">
+            <h2>Hero Section Test</h2>
+            <h1 class="hero-title">Discover Kalavrita</h1>
+            <p class="hero-subtitle">Your complete guide to restaurants, attractions, and activities</p>
+            <button class="btn hero-actions">Explore Restaurants</button>
+            <button class="btn hero-actions">See Attractions</button>
+        </div>
+
+        <div class="test-section">
+            <h2>Restaurant Cards Test</h2>
+            <div id="restaurants-grid">
+                <!-- Restaurant cards will be inserted here -->
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Attraction Cards Test</h2>
+            <div id="attractions-grid">
+                <!-- Attraction cards will be inserted here -->
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Activity Cards Test</h2>
+            <div id="activities-grid">
+                <!-- Activity cards will be inserted here -->
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Contact Form Test</h2>
+            <form id="contact-form">
+                <label for="name">Name</label>
+                <input type="text" name="name" placeholder="Your name">
+                
+                <label for="email">Email</label>
+                <input type="email" name="email" placeholder="your@email.com">
+                
+                <label for="subject">Subject</label>
+                <input type="text" name="subject" placeholder="Subject">
+                
+                <label for="message">Message</label>
+                <textarea name="message" placeholder="Your message"></textarea>
+                
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
+        <div class="test-section">
+            <h2>Footer Test</h2>
+            <footer>
+                <h3 class="footer-title">Kalavrita Guide</h3>
+                <p class="footer-description">Your complete guide to Kalavrita, Greece</p>
+                <h4>Quick Links</h4>
+                <h4>Connect</h4>
+                <p class="follow-us">Follow us for updates and tips</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/data-translations.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/language-manager.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        // Initialize the app for testing
+        const app = new KalavritaGuide();
+        
+        // Test language switching
+        console.log('Current language:', app.languageManager.getCurrentLanguage());
+        console.log('Available languages:', app.languageManager.getAvailableLanguages());
+        
+        // Test translations
+        console.log('Translation test:', app.languageManager.t('hero.title'));
+        console.log('Translation test (Greek):', app.languageManager.t('hero.title', {}, 'el'));
+    </script>
+</body>
+</html>

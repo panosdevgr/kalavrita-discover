@@ -7,6 +7,7 @@ class KalavritaGuide {
         this.installPrompt = null;
         this.isOnline = navigator.onLine;
         this.emailService = new EmailService();
+        this.languageManager = new LanguageManager();
         
         this.init();
     }
@@ -18,6 +19,7 @@ class KalavritaGuide {
         this.setupInstallPrompt();
         this.setupOfflineHandling();
         this.setupNotifications();
+        this.setupLanguageObserver();
     }
     
     // Service Worker Registration
@@ -163,7 +165,8 @@ class KalavritaGuide {
         const container = document.getElementById('attractions-grid');
         if (!container) return;
         
-        const attractions = this.data.attractions;
+        const currentLang = this.languageManager.getCurrentLanguage();
+        const attractions = kalavritaDataTranslations.attractions[currentLang] || this.data.attractions;
         
         if (attractions.length === 0) {
             container.innerHTML = this.getEmptyState('attractions');
@@ -178,7 +181,8 @@ class KalavritaGuide {
         const container = document.getElementById('activities-grid');
         if (!container) return;
         
-        const activities = this.data.activities;
+        const currentLang = this.languageManager.getCurrentLanguage();
+        const activities = kalavritaDataTranslations.activities[currentLang] || this.data.activities;
         
         if (activities.length === 0) {
             container.innerHTML = this.getEmptyState('activities');
@@ -213,10 +217,10 @@ class KalavritaGuide {
                     </div>
                     <div class="card-actions">
                         <button class="btn btn-primary btn-small" onclick="app.showRestaurantDetails(${restaurant.id})">
-                            View Details
+                            ${this.languageManager.t('restaurants.viewDetails')}
                         </button>
                         <button class="btn btn-secondary btn-small" onclick="app.getDirections(${restaurant.coordinates.lat}, ${restaurant.coordinates.lng})">
-                            Directions
+                            ${this.languageManager.t('restaurants.directions')}
                         </button>
                     </div>
                 </div>
@@ -247,10 +251,10 @@ class KalavritaGuide {
                     </div>
                     <div class="card-actions">
                         <button class="btn btn-primary btn-small" onclick="app.showAttractionDetails(${attraction.id})">
-                            Learn More
+                            ${this.languageManager.t('attractions.learnMore')}
                         </button>
                         <button class="btn btn-secondary btn-small" onclick="app.getDirections(${attraction.coordinates.lat}, ${attraction.coordinates.lng})">
-                            Directions
+                            ${this.languageManager.t('restaurants.directions')}
                         </button>
                     </div>
                 </div>
@@ -281,10 +285,10 @@ class KalavritaGuide {
                     </div>
                     <div class="card-actions">
                         <button class="btn btn-primary btn-small" onclick="app.showActivityDetails(${activity.id})">
-                            Book Now
+                            ${this.languageManager.t('activities.bookNow')}
                         </button>
                         <button class="btn btn-secondary btn-small" onclick="app.contactForBooking(${activity.id})">
-                            Contact
+                            ${this.languageManager.t('activities.contact')}
                         </button>
                     </div>
                 </div>
@@ -294,13 +298,21 @@ class KalavritaGuide {
     
     // Filter and Search Methods
     getFilteredRestaurants() {
-        let restaurants = this.data.restaurants;
+        const currentLang = this.languageManager.getCurrentLanguage();
+        let restaurants = kalavritaDataTranslations.restaurants[currentLang] || this.data.restaurants;
         
         // Apply category filter
         if (this.currentFilter !== 'all') {
-            restaurants = restaurants.filter(restaurant => 
-                restaurant.type.toLowerCase() === this.currentFilter.toLowerCase()
-            );
+            const filterMapping = this.getFilterMapping(currentLang);
+            const targetType = filterMapping[this.currentFilter];
+            console.log('Filtering by:', this.currentFilter, 'Target type:', targetType);
+            console.log('Available types:', restaurants.map(r => r.type));
+            
+            restaurants = restaurants.filter(restaurant => {
+                const matches = restaurant.type === targetType;
+                console.log(`Restaurant "${restaurant.name}" type "${restaurant.type}" matches "${targetType}":`, matches);
+                return matches;
+            });
         }
         
         // Apply search filter
@@ -317,7 +329,26 @@ class KalavritaGuide {
         return restaurants;
     }
     
+    // Get filter mapping for current language
+    getFilterMapping(language) {
+        const mappings = {
+            'en': {
+                'traditional': 'Traditional',
+                'modern': 'Modern',
+                'cafe': 'Cafe'
+            },
+            'el': {
+                'traditional': 'Παραδοσιακό',
+                'modern': 'Σύγχρονο',
+                'cafe': 'Καφετέρια'
+            }
+        };
+        return mappings[language] || mappings['en'];
+    }
+    
     handleFilterChange(filter) {
+        console.log('Filter changed to:', filter);
+        console.log('Current language:', this.languageManager.getCurrentLanguage());
         this.currentFilter = filter;
         this.renderRestaurants();
     }
@@ -359,23 +390,29 @@ class KalavritaGuide {
     
     // Detail View Methods
     showRestaurantDetails(id) {
-        const restaurant = this.data.restaurants.find(r => r.id === id);
+        const currentLang = this.languageManager.getCurrentLanguage();
+        const restaurants = kalavritaDataTranslations.restaurants[currentLang] || this.data.restaurants;
+        const restaurant = restaurants.find(r => r.id === id);
         if (restaurant) {
-            this.showModal('Restaurant Details', this.createRestaurantDetailContent(restaurant));
+            this.showModal(this.languageManager.t('restaurants.title'), this.createRestaurantDetailContent(restaurant));
         }
     }
     
     showAttractionDetails(id) {
-        const attraction = this.data.attractions.find(a => a.id === id);
+        const currentLang = this.languageManager.getCurrentLanguage();
+        const attractions = kalavritaDataTranslations.attractions[currentLang] || this.data.attractions;
+        const attraction = attractions.find(a => a.id === id);
         if (attraction) {
-            this.showModal('Attraction Details', this.createAttractionDetailContent(attraction));
+            this.showModal(this.languageManager.t('attractions.title'), this.createAttractionDetailContent(attraction));
         }
     }
     
     showActivityDetails(id) {
-        const activity = this.data.activities.find(a => a.id === id);
+        const currentLang = this.languageManager.getCurrentLanguage();
+        const activities = kalavritaDataTranslations.activities[currentLang] || this.data.activities;
+        const activity = activities.find(a => a.id === id);
         if (activity) {
-            this.showModal('Activity Details', this.createActivityDetailContent(activity));
+            this.showModal(this.languageManager.t('activities.title'), this.createActivityDetailContent(activity));
         }
     }
     
@@ -415,6 +452,16 @@ class KalavritaGuide {
         if (form) {
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
         }
+    }
+    
+    // Email Support Handling
+    openEmailSupport() {
+        const email = 'hello@forcehook.com';
+        const subject = 'Kalavrita Guide - Support Request';
+        const body = 'Hello,\n\nI need assistance with the Kalavrita Guide app.\n\nPlease provide details about your inquiry:\n\n';
+        
+        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.open(mailtoLink, '_blank');
     }
     
     async handleContactForm(event) {
@@ -585,6 +632,14 @@ class KalavritaGuide {
         }
     }
     
+    // Language Observer Setup
+    setupLanguageObserver() {
+        this.languageManager.addObserver((language) => {
+            console.log('Language changed to:', language);
+            this.loadContent();
+        });
+    }
+    
     showUpdateNotification() {
         this.showToast('App update available! Refresh to get the latest version.', 'info');
     }
@@ -604,22 +659,22 @@ class KalavritaGuide {
                 <p class="detail-description">${restaurant.description}</p>
                 <div class="detail-info">
                     <div class="info-section">
-                        <h4>Hours</h4>
+                        <h4>${this.languageManager.t('restaurants.hours')}</h4>
                         <p>${restaurant.hours}</p>
                     </div>
                     <div class="info-section">
-                        <h4>Contact</h4>
-                        <p>Phone: <a href="tel:${restaurant.phone}">${restaurant.phone}</a></p>
-                        <p>Address: ${restaurant.address}</p>
+                        <h4>${this.languageManager.t('common.contact')}</h4>
+                        <p>${this.languageManager.t('restaurants.phone')}: <a href="tel:${restaurant.phone}">${restaurant.phone}</a></p>
+                        <p>${this.languageManager.t('restaurants.address')}: ${restaurant.address}</p>
                     </div>
                     <div class="info-section">
-                        <h4>Features</h4>
+                        <h4>${this.languageManager.t('restaurants.features')}</h4>
                         <div class="feature-tags">
                             ${restaurant.features.map(feature => `<span class="tag">${feature}</span>`).join('')}
                         </div>
                     </div>
                     <div class="info-section">
-                        <h4>Highlights</h4>
+                        <h4>${this.languageManager.t('restaurants.highlights')}</h4>
                         <ul>
                             ${restaurant.highlights.map(highlight => `<li>${highlight}</li>`).join('')}
                         </ul>
@@ -627,9 +682,9 @@ class KalavritaGuide {
                 </div>
                 <div class="detail-actions">
                     <button class="btn btn-primary" onclick="app.getDirections(${restaurant.coordinates.lat}, ${restaurant.coordinates.lng})">
-                        Get Directions
+                        ${this.languageManager.t('restaurants.directions')}
                     </button>
-                    <a href="tel:${restaurant.phone}" class="btn btn-secondary">Call Now</a>
+                    <a href="tel:${restaurant.phone}" class="btn btn-secondary">${this.languageManager.t('common.call')}</a>
                 </div>
             </div>
         `;
@@ -649,22 +704,22 @@ class KalavritaGuide {
                 <p class="detail-description">${attraction.description}</p>
                 <div class="detail-info">
                     <div class="info-section">
-                        <h4>Hours</h4>
+                        <h4>${this.languageManager.t('restaurants.hours')}</h4>
                         <p>${attraction.hours}</p>
                     </div>
                     <div class="info-section">
-                        <h4>Location</h4>
+                        <h4>${this.languageManager.t('common.location')}</h4>
                         <p>${attraction.address}</p>
-                        ${attraction.phone !== 'N/A' ? `<p>Phone: <a href="tel:${attraction.phone}">${attraction.phone}</a></p>` : ''}
+                        ${attraction.phone !== 'N/A' ? `<p>${this.languageManager.t('restaurants.phone')}: <a href="tel:${attraction.phone}">${attraction.phone}</a></p>` : ''}
                     </div>
                     <div class="info-section">
-                        <h4>Features</h4>
+                        <h4>${this.languageManager.t('restaurants.features')}</h4>
                         <div class="feature-tags">
                             ${attraction.features.map(feature => `<span class="tag">${feature}</span>`).join('')}
                         </div>
                     </div>
                     <div class="info-section">
-                        <h4>Highlights</h4>
+                        <h4>${this.languageManager.t('restaurants.highlights')}</h4>
                         <ul>
                             ${attraction.highlights.map(highlight => `<li>${highlight}</li>`).join('')}
                         </ul>
@@ -672,9 +727,9 @@ class KalavritaGuide {
                 </div>
                 <div class="detail-actions">
                     <button class="btn btn-primary" onclick="app.getDirections(${attraction.coordinates.lat}, ${attraction.coordinates.lng})">
-                        Get Directions
+                        ${this.languageManager.t('restaurants.directions')}
                     </button>
-                    ${attraction.phone !== 'N/A' ? `<a href="tel:${attraction.phone}" class="btn btn-secondary">Call</a>` : ''}
+                    ${attraction.phone !== 'N/A' ? `<a href="tel:${attraction.phone}" class="btn btn-secondary">${this.languageManager.t('common.call')}</a>` : ''}
                 </div>
             </div>
         `;
@@ -694,25 +749,25 @@ class KalavritaGuide {
                 <p class="detail-description">${activity.description}</p>
                 <div class="detail-info">
                     <div class="info-section">
-                        <h4>Details</h4>
-                        <p><strong>Type:</strong> ${activity.type}</p>
-                        <p><strong>Duration:</strong> ${activity.duration}</p>
-                        <p><strong>Difficulty:</strong> ${activity.difficulty}</p>
-                        <p><strong>Season:</strong> ${activity.season}</p>
-                        <p><strong>Price:</strong> ${activity.price}</p>
+                        <h4>${this.languageManager.t('common.details')}</h4>
+                        <p><strong>${this.languageManager.t('activities.type')}:</strong> ${activity.type}</p>
+                        <p><strong>${this.languageManager.t('activities.duration')}:</strong> ${activity.duration}</p>
+                        <p><strong>${this.languageManager.t('activities.difficulty')}:</strong> ${activity.difficulty}</p>
+                        <p><strong>${this.languageManager.t('activities.season')}:</strong> ${activity.season}</p>
+                        <p><strong>${this.languageManager.t('common.price')}:</strong> ${activity.price}</p>
                     </div>
                     <div class="info-section">
-                        <h4>Equipment Needed</h4>
+                        <h4>${this.languageManager.t('activities.equipment')}</h4>
                         <p>${activity.equipment}</p>
                     </div>
                     <div class="info-section">
-                        <h4>Features</h4>
+                        <h4>${this.languageManager.t('restaurants.features')}</h4>
                         <div class="feature-tags">
                             ${activity.features.map(feature => `<span class="tag">${feature}</span>`).join('')}
                         </div>
                     </div>
                     <div class="info-section">
-                        <h4>Highlights</h4>
+                        <h4>${this.languageManager.t('restaurants.highlights')}</h4>
                         <ul>
                             ${activity.highlights.map(highlight => `<li>${highlight}</li>`).join('')}
                         </ul>
@@ -720,10 +775,10 @@ class KalavritaGuide {
                 </div>
                 <div class="detail-actions">
                     <button class="btn btn-primary" onclick="app.contactForBooking(${activity.id})">
-                        Book Now
+                        ${this.languageManager.t('activities.bookNow')}
                     </button>
                     <button class="btn btn-secondary" onclick="app.contactForBooking(${activity.id})">
-                        Contact for Info
+                        ${this.languageManager.t('activities.contact')}
                     </button>
                 </div>
             </div>

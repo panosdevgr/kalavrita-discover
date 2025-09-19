@@ -234,8 +234,8 @@ a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(44, 85, 48, 0.8), rgba(26, 61, 31, 0.6));
-    z-index: -1;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6), rgba(44, 85, 48, 0.3));
+    z-index: 1;
 }
 
 .hero-content {
@@ -243,20 +243,27 @@ a:hover {
     color: white;
     max-width: 800px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-title {
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
     font-size: 1.25rem;
     margin-bottom: 2rem;
-    opacity: 0.9;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    opacity: 0.95;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 0, 0, 0.4);
+    color: #f8f9fa;
+    font-weight: 400;
+    line-height: 1.6;
 }
 
 .hero-actions {
@@ -264,6 +271,44 @@ a:hover {
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.hero-actions .btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-transform: none;
+    letter-spacing: 0.5px;
+}
+
+.hero-actions .btn-primary {
+    background: linear-gradient(135deg, #2c5530, #1a3d1f);
+    border: none;
+    color: white;
+}
+
+.hero-actions .btn-primary:hover {
+    background: linear-gradient(135deg, #1a3d1f, #2c5530);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hero-actions .btn-secondary {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    color: #2c5530;
+    backdrop-filter: blur(10px);
+}
+
+.hero-actions .btn-secondary:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Sections */

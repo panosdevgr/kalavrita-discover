@@ -671,3 +671,133 @@
     visibility: visible;
     opacity: 1;
 }
+
+/* Language Switcher */
+.language-switcher {
+    position: relative;
+    display: inline-block;
+    margin-left: 1rem;
+}
+
+.language-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    color: #333;
+    min-width: 120px;
+    justify-content: space-between;
+}
+
+.language-button:hover {
+    border-color: #2c5530;
+    background-color: #f8f9fa;
+    color: #2c5530;
+}
+
+.language-flag {
+    font-size: 1.2rem;
+}
+
+.language-name {
+    font-weight: 500;
+}
+
+.language-arrow {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.language-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.language-option:last-child {
+    border-bottom: none;
+}
+
+.language-option:hover {
+    background-color: #f8f9fa;
+}
+
+.language-option.active {
+    background-color: #e8f5e8;
+    color: #2c5530;
+}
+
+/* RTL Support */
+[dir="rtl"] .language-switcher {
+    margin-left: 0;
+    margin-right: 1rem;
+}
+
+[dir="rtl"] .language-dropdown {
+    left: auto;
+    right: 0;
+}
+
+/* Mobile Language Switcher */
+@media (max-width: 768px) {
+    .language-switcher {
+        margin-left: 0;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1001;
+    }
+    
+    .language-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        min-width: 80px;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(44, 85, 48, 0.2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .language-flag {
+        font-size: 1rem;
+    }
+    
+    .language-dropdown {
+        left: -30px;
+        right: -30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+}
