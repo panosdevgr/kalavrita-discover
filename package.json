@@ -7,6 +7,7 @@
     "start": "node server.js",
     "dev": "node server.js",
     "build": "echo 'No build process needed for static PWA'",
+    "build:netlify": "echo 'Deploying Kalavrita Guide PWA to Netlify'",
     "test": "echo 'No tests specified'",
     "icons": "node create-icons.js",
     "serve": "python3 -m http.server 3000",

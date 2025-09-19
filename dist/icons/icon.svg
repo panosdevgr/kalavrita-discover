@@ -1,0 +1,21 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#2c5530"/>
+  
+  <!-- Mountain silhouette -->
+  <path d="M0 400L128 280L256 320L384 200L512 240V512H0V400Z" fill="#1a3d1f"/>
+  
+  <!-- Railway track -->
+  <path d="M50 350L462 350" stroke="#ffd700" stroke-width="8" stroke-linecap="round"/>
+  <path d="M50 370L462 370" stroke="#ffd700" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Train -->
+  <rect x="200" y="320" width="80" height="40" rx="8" fill="#ffffff"/>
+  <rect x="210" y="330" width="60" height="20" rx="4" fill="#2c5530"/>
+  <circle cx="220" cy="370" r="8" fill="#333"/>
+  <circle cx="260" cy="370" r="8" fill="#333"/>
+  
+  <!-- Sun -->
+  <circle cx="400" cy="120" r="30" fill="#ffd700"/>
+  <path d="M400 60L400 40M400 200L400 180M340 120L320 120M480 120L460 120M360 80L350 70M360 160L350 170M440 80L450 70M440 160L450 170M360 80L350 70M360 160L350 170" stroke="#ffd700" stroke-width="4" stroke-linecap="round"/>
+</svg>
