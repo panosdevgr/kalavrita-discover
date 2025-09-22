@@ -678,6 +678,70 @@ const translations = {
             call: "Καλέστε",
             price: "Τιμή"
         }
+    },
+    
+    // Consent Management
+    consent: {
+        title: {
+            en: 'Cookie & Privacy Settings',
+            el: 'Ρυθμίσεις Cookies & Απορρήτου'
+        },
+        description: {
+            en: 'We use cookies to improve your experience and analyze site usage. You can customize your preferences below.',
+            el: 'Χρησιμοποιούμε cookies για να βελτιώσουμε την εμπειρία σας και να αναλύσουμε τη χρήση του ιστότοπου. Μπορείτε να προσαρμόσετε τις προτιμήσεις σας παρακάτω.'
+        },
+        customize: {
+            en: 'Customize',
+            el: 'Προσαρμογή'
+        },
+        acceptAll: {
+            en: 'Accept All',
+            el: 'Αποδοχή Όλων'
+        },
+        rejectAll: {
+            en: 'Reject All',
+            el: 'Απόρριψη Όλων'
+        },
+        modalTitle: {
+            en: 'Privacy & Cookie Settings',
+            el: 'Ρυθμίσεις Απορρήτου & Cookies'
+        },
+        modalDescription: {
+            en: 'Choose which cookies and data you want to allow. You can change these settings at any time.',
+            el: 'Επιλέξτε ποια cookies και δεδομένα θέλετε να επιτρέψετε. Μπορείτε να αλλάξετε αυτές τις ρυθμίσεις ανά πάσα στιγμή.'
+        },
+        analytics: {
+            en: 'Analytics',
+            el: 'Ανάλυση'
+        },
+        analyticsDesc: {
+            en: 'Help us understand how visitors interact with our website',
+            el: 'Βοηθήστε μας να κατανοήσουμε πώς οι επισκέπτες αλληλεπιδρούν με τον ιστότοπό μας'
+        },
+        functionality: {
+            en: 'Functionality',
+            el: 'Λειτουργικότητα'
+        },
+        functionalityDesc: {
+            en: 'Remember your preferences and settings',
+            el: 'Απομνημόνευση των προτιμήσεων και ρυθμίσεών σας'
+        },
+        personalization: {
+            en: 'Personalization',
+            el: 'Εξατομίκευση'
+        },
+        personalizationDesc: {
+            en: 'Provide personalized content and recommendations',
+            el: 'Παροχή εξατομικευμένου περιεχομένου και συστάσεων'
+        },
+        cancel: {
+            en: 'Cancel',
+            el: 'Ακύρωση'
+        },
+        save: {
+            en: 'Save Settings',
+            el: 'Αποθήκευση Ρυθμίσεων'
+        }
     }
 };
 

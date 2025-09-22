@@ -8,6 +8,7 @@ class KalavritaGuide {
         this.isOnline = navigator.onLine;
         this.emailService = new EmailService();
         this.languageManager = new LanguageManager();
+        this.consentGiven = this.getStoredConsent();
         
         this.init();
     }
@@ -20,6 +21,322 @@ class KalavritaGuide {
         this.setupOfflineHandling();
         this.setupNotifications();
         this.setupLanguageObserver();
+        this.setupConsentManagement();
+    }
+    
+    // Consent Management
+    setupConsentManagement() {
+        // Show consent banner if no consent has been given
+        if (!this.consentGiven) {
+            this.showConsentBanner();
+        } else {
+            this.updateConsentSettings(this.consentGiven);
+        }
+    }
+    
+    getStoredConsent() {
+        try {
+            const stored = localStorage.getItem('kalavrita-consent');
+            return stored ? JSON.parse(stored) : null;
+        } catch (error) {
+            console.error('Error reading consent preferences:', error);
+            return null;
+        }
+    }
+    
+    storeConsent(consent) {
+        try {
+            localStorage.setItem('kalavrita-consent', JSON.stringify(consent));
+            this.consentGiven = consent;
+        } catch (error) {
+            console.error('Error storing consent preferences:', error);
+        }
+    }
+    
+    showConsentBanner() {
+        const banner = document.createElement('div');
+        banner.id = 'consent-banner';
+        banner.className = 'consent-banner';
+        banner.innerHTML = `
+            <div class="consent-content">
+                <div class="consent-text">
+                    <h3>${this.languageManager.t('consent.title', 'Cookie & Privacy Settings')}</h3>
+                    <p>${this.languageManager.t('consent.description', 'We use cookies to improve your experience and analyze site usage. You can customize your preferences below.')}</p>
+                </div>
+                <div class="consent-actions">
+                    <button class="btn btn-secondary" onclick="app.showConsentModal()">${this.languageManager.t('consent.customize', 'Customize')}</button>
+                    <button class="btn btn-primary" onclick="app.acceptAllConsent()">${this.languageManager.t('consent.acceptAll', 'Accept All')}</button>
+                    <button class="btn btn-secondary" onclick="app.rejectAllConsent()">${this.languageManager.t('consent.rejectAll', 'Reject All')}</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(banner);
+        
+        // Add styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .consent-banner {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                border-top: 1px solid #e9ecef;
+                box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                padding: 1rem;
+            }
+            
+            .consent-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .consent-text {
+                flex: 1;
+                min-width: 300px;
+            }
+            
+            .consent-text h3 {
+                margin: 0 0 0.5rem 0;
+                color: #2c5530;
+                font-size: 1.1rem;
+            }
+            
+            .consent-text p {
+                margin: 0;
+                color: #666;
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+            
+            .consent-actions {
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .consent-actions .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+            
+            @media (max-width: 768px) {
+                .consent-content {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                
+                .consent-actions {
+                    justify-content: center;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    showConsentModal() {
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay show';
+        modal.innerHTML = `
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">${this.languageManager.t('consent.modalTitle', 'Privacy & Cookie Settings')}</h3>
+                    <button class="modal-close" onclick="app.closeConsentModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>${this.languageManager.t('consent.modalDescription', 'Choose which cookies and data you want to allow. You can change these settings at any time.')}</p>
+                    
+                    <div class="consent-options">
+                        <div class="consent-option">
+                            <label class="consent-toggle">
+                                <input type="checkbox" id="analytics-storage" checked>
+                                <span class="toggle-slider"></span>
+                                <div class="toggle-content">
+                                    <strong>${this.languageManager.t('consent.analytics', 'Analytics')}</strong>
+                                    <small>${this.languageManager.t('consent.analyticsDesc', 'Help us understand how visitors interact with our website')}</small>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="consent-option">
+                            <label class="consent-toggle">
+                                <input type="checkbox" id="functionality-storage" checked>
+                                <span class="toggle-slider"></span>
+                                <div class="toggle-content">
+                                    <strong>${this.languageManager.t('consent.functionality', 'Functionality')}</strong>
+                                    <small>${this.languageManager.t('consent.functionalityDesc', 'Remember your preferences and settings')}</small>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="consent-option">
+                            <label class="consent-toggle">
+                                <input type="checkbox" id="personalization-storage">
+                                <span class="toggle-slider"></span>
+                                <div class="toggle-content">
+                                    <strong>${this.languageManager.t('consent.personalization', 'Personalization')}</strong>
+                                    <small>${this.languageManager.t('consent.personalizationDesc', 'Provide personalized content and recommendations')}</small>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="app.closeConsentModal()">${this.languageManager.t('consent.cancel', 'Cancel')}</button>
+                    <button class="btn btn-primary" onclick="app.saveConsentSettings()">${this.languageManager.t('consent.save', 'Save Settings')}</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Add modal styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .consent-options {
+                margin: 1rem 0;
+            }
+            
+            .consent-option {
+                margin-bottom: 1rem;
+                padding: 1rem;
+                border: 1px solid #e9ecef;
+                border-radius: 8px;
+                background: #f8f9fa;
+            }
+            
+            .consent-toggle {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+                cursor: pointer;
+            }
+            
+            .consent-toggle input[type="checkbox"] {
+                display: none;
+            }
+            
+            .toggle-slider {
+                width: 50px;
+                height: 24px;
+                background: #ddd;
+                border-radius: 12px;
+                position: relative;
+                transition: background 0.3s;
+                flex-shrink: 0;
+                margin-top: 2px;
+            }
+            
+            .toggle-slider::before {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background: white;
+                border-radius: 50%;
+                top: 2px;
+                left: 2px;
+                transition: transform 0.3s;
+            }
+            
+            .consent-toggle input:checked + .toggle-slider {
+                background: #2c5530;
+            }
+            
+            .consent-toggle input:checked + .toggle-slider::before {
+                transform: translateX(26px);
+            }
+            
+            .toggle-content {
+                flex: 1;
+            }
+            
+            .toggle-content strong {
+                display: block;
+                color: #2c5530;
+                margin-bottom: 0.25rem;
+            }
+            
+            .toggle-content small {
+                color: #666;
+                font-size: 0.85rem;
+                line-height: 1.3;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    closeConsentModal() {
+        const modal = document.querySelector('.modal-overlay');
+        if (modal) {
+            modal.remove();
+        }
+    }
+    
+    acceptAllConsent() {
+        const consent = {
+            analytics_storage: 'granted',
+            functionality_storage: 'granted',
+            personalization_storage: 'granted',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        };
+        
+        this.storeConsent(consent);
+        this.updateConsentSettings(consent);
+        this.hideConsentBanner();
+    }
+    
+    rejectAllConsent() {
+        const consent = {
+            analytics_storage: 'denied',
+            functionality_storage: 'denied',
+            personalization_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        };
+        
+        this.storeConsent(consent);
+        this.updateConsentSettings(consent);
+        this.hideConsentBanner();
+    }
+    
+    saveConsentSettings() {
+        const consent = {
+            analytics_storage: document.getElementById('analytics-storage').checked ? 'granted' : 'denied',
+            functionality_storage: document.getElementById('functionality-storage').checked ? 'granted' : 'denied',
+            personalization_storage: document.getElementById('personalization-storage').checked ? 'granted' : 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        };
+        
+        this.storeConsent(consent);
+        this.updateConsentSettings(consent);
+        this.hideConsentBanner();
+        this.closeConsentModal();
+    }
+    
+    updateConsentSettings(consent) {
+        if (typeof gtag !== 'undefined') {
+            gtag('consent', 'update', consent);
+        }
+    }
+    
+    hideConsentBanner() {
+        const banner = document.getElementById('consent-banner');
+        if (banner) {
+            banner.remove();
+        }
     }
     
     // Service Worker Registration
